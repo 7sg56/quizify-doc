@@ -1,0 +1,107 @@
+
+
+:root {
+    --discord-dark: #36393f;
+    --discord-darker: #2f3136;
+    --discord-light: #dcddde;
+    --discord-blue: #5865f2;
+    --discord-hover: #40444b;
+    --discord-border: #202225;
+}
+
+body {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    min-height: 100vh;
+    background: var(--discord-dark);
+    color: var(--discord-light);
+    padding: 1rem;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.header{
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 2rem; 
+}
+
+.header h1{
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.header p{
+    color: #b9bbbe;
+    font-size: 1.1rem;  
+}
+
+.upload-area{
+    border: 2px dashed var(--discord-blue);
+    border-radius: 20px;
+    padding: 2rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    background: var(--discord-darker);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-bottom: 2rem;
+}
+
+.upload-area:hover{
+    background: var(--discord-hover);
+    transform: translateY(-2px) scale(0.98);
+}
+
+.upload-area.dragover {
+    background: var(--discord-hover);
+    border-color: #7289da;
+}
+
+.upload-area i{
+    font-size: 3rem;
+    color: var(--discord-blue);
+    margin-bottom: 1rem;
+}
+
+.upload-area h2 {
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.upload-area p {
+    color: #b9bbbe;
+    margin-bottom: 0;
+}
+
+.loading {
+    display: none;
+    text-align: center;
+    margin: 2rem 0;
+    background: var(--discord-darker);
+    padding: 2rem;
+    border-radius: 16px;
+}
+
+.progess {
+    width: 100%;
+    height: 8px;
+    background: var(--discord-dark);
+    margin-top: 1rem;
+    border-radius: 4px;
+}
+
+.progress-bar {
+    width: 0;
+    height: 100%;
+    background: var(--discord-blue);
+    border-radius: 4px;
+    transition: width 0.3s ease;
+}
+

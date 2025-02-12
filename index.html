@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>My Project</title>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>AI Flashcard Generator</h1>
+            <p>Upload pdf and covert it to flashcards</p>
+        </div>
+        <div class="upload-area" id="dropzone">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <h2>Drop your PDF here</h2>
+            <p>or click to select file here</p> 
+            <input type="file" id="filei=Input" style="display: none">
+        </div>
+        <div class="loading" id="loading">
+            <h2>Generating your flashcards ...</h2>
+            <div class="progress">
+                <div class="progress-bar"></div>
+            </div>
+        </div>
+        <div class="carousel-container" id="carousel-container">
+            <div class="flashcard-wrapper">
+                <div class="flashcard" id="flashcard">
+                    <div class="card-content" id="card-content"></div>
+                </div>
+            </div>
+            <button class="nav-btn prev" id="prevBtn">
+
+            </button>
+            <button class="nav-btn next" id="nextBtn">
+               
+            </button>
+            <div class="cardCounter" id="cardCounter"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
