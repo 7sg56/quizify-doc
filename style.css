@@ -105,3 +105,20 @@ body {
     transition: width 0.3s ease;
 }
 
+.slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 250px;
+    padding: 1rem 2rem;
+    background: var(--discord-darker);
+    border-radius: 16px;
+}
+
+.slide h2{
+    font-size: 1rem;
+}
+
+#flashcard-carousel {
+    display: none;
+}
