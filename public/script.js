@@ -2,9 +2,16 @@ const dropFile = document.getElementById('dropzone');
 const fileInput = document.getElementById('fileInput');
 const loading = document.getElementById('loading');
 const progressBar = document.querySelector('.progress-bar');
-const carousel = document.getElementById('flashcard-carousel');
+const flashcardsContainer = document.getElementById('flashcards-container');
+const newDocumentBtn = document.getElementById('new-document');
+const prevCardBtn = document.getElementById('prev-card');
+const nextCardBtn = document.getElementById('next-card');
+const cardCounter = document.getElementById('card-counter');
 
+const flashcards = document.querySelectorAll('.flashcard');
+const revealButtons = document.querySelectorAll('.btn-reveal');
 let currentFlashcards = [];
+let currentCardIndex = 0;
 
 dropFile.addEventListener('dragover', (e) => {
     e.preventDefault();
@@ -28,14 +35,42 @@ fileInput.addEventListener('change', (e) => {
     uploadFile(file);
 });
 
+newDocumentBtn.addEventListener('click', () => {
+    flashcardsContainer.style.display = 'none';
+    dropFile.style.display = 'block';
+    fileInput.value = '';
+});
+
+prevCardBtn.addEventListener('click', () => {
+    navigateCards('prev');
+});
+
+nextCardBtn.addEventListener('click', () => {
+    navigateCards('next');
+});
+
+revealButtons.forEach((button, index) => {
+    button.addEventListener('click', () => {
+        const flashcard = document.getElementById(`flashcard-${index + 1}`);
+        flashcard.classList.toggle('revealed');
+        
+        if (flashcard.classList.contains('revealed')) {
+            button.textContent = 'Hide Answer';
+        } else {
+            button.textContent = 'Reveal Answer';
+        }
+    });
+});
+
 async function uploadFile(file) {
     if (!(file && file.type === 'application/pdf')) {
-        alert('Please upload a PDF file');
+        showNotification('Please upload a PDF file', 'error');
         return;
     }
     
     dropFile.style.display = 'none';
     loading.style.display = 'block';
+    progressBar.style.width = '0%';
 
     const formData = new FormData();
     formData.append('file', file);
@@ -57,16 +92,21 @@ async function uploadFile(file) {
         progressBar.style.width = '100%';
 
         const data = await response.json();
+        
+        if (data.error) {
+            throw new Error(data.error);
+        }
+        
         currentFlashcards = data.flashcards;
         
         setTimeout(() => {
             loading.style.display = 'none';
-            carousel.style.display = 'block';
+            flashcardsContainer.style.display = 'block';
             displayFlashcards();
         }, 500);
     } catch (e) {
         console.error('Error uploading file:', e);
-        alert('Error uploading file');
+        showNotification('Error processing your file. Please try again.', 'error');
         loading.style.display = 'none';
         dropFile.style.display = 'block';
         progressBar.style.width = '0%';
@@ -74,6 +114,17 @@ async function uploadFile(file) {
 }
 
 function displayFlashcards() {
+    flashcards.forEach(card => {
+        card.classList.remove('revealed');
+        const button = card.querySelector('.btn-reveal');
+        if (button) {
+            button.textContent = 'Reveal Answer';
+        }
+    });
+    
+    currentCardIndex = 0;
+    updateCardDisplay();
+    
     currentFlashcards.forEach((card, index) => {
         const questionEl = document.getElementById(`question-${index + 1}`);
         const answerEl = document.getElementById(`answer-${index + 1}`);
@@ -84,3 +135,73 @@ function displayFlashcards() {
         }
     });
 }
+
+function updateCardDisplay() {
+    flashcards.forEach(card => {
+        card.classList.remove('active');
+    });
+    
+    flashcards[currentCardIndex].classList.add('active');
+    
+    cardCounter.textContent = `${currentCardIndex + 1}/${currentFlashcards.length}`;
+    
+    prevCardBtn.disabled = currentCardIndex === 0;
+    nextCardBtn.disabled = currentCardIndex === currentFlashcards.length - 1;
+}
+
+function navigateCards(direction) {
+    if (direction === 'prev' && currentCardIndex > 0) {
+        currentCardIndex--;
+    } else if (direction === 'next' && currentCardIndex < currentFlashcards.length - 1) {
+        currentCardIndex++;
+    }
+    
+    flashcards[currentCardIndex].classList.remove('revealed');
+    const button = flashcards[currentCardIndex].querySelector('.btn-reveal');
+    if (button) {
+        button.textContent = 'Reveal Answer';
+    }
+    
+    updateCardDisplay();
+}
+
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+
+document.addEventListener('keydown', (e) => {
+    if (flashcardsContainer.style.display === 'block') {
+        if (e.key === 'ArrowLeft') {
+            navigateCards('prev');
+        } else if (e.key === 'ArrowRight') {
+            navigateCards('next');
+        } else if (e.key === ' ' || e.key === 'Enter') {
+            const currentCard = flashcards[currentCardIndex];
+            currentCard.classList.toggle('revealed');
+            
+            const button = currentCard.querySelector('.btn-reveal');
+            if (button) {
+                if (currentCard.classList.contains('revealed')) {
+                    button.textContent = 'Hide Answer';
+                } else {
+                    button.textContent = 'Reveal Answer';
+                }
+            }
+        }
+    }
+});

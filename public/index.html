@@ -14,89 +14,135 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="style.css" />
-    <title>My Project</title>
+    <title>FlashcardAI - PDF to Flashcards</title>
   </head>
   <body>
     <div class="container">
       <div class="header">
-        <h1>AI Flashcard Generator</h1>
-        <p>Upload pdf and covert it to flashcards</p>
+        <h1><i class="fas fa-brain"></i> FlashcardAI</h1>
+        <p>Transform your PDF documents into interactive flashcards instantly</p>
       </div>
+      
       <div class="upload-area" id="dropzone">
         <i class="fas fa-cloud-upload-alt"></i>
         <h2>Drop your PDF here</h2>
-        <p>or click to select file here</p>
+        <p>or click to select file</p>
         <input type="file" id="fileInput" style="display: none" accept=".pdf" />
       </div>
+      
       <div class="loading" id="loading">
-        <h2>Generating your flashcards ...</h2>
+        <h2>Generating your flashcards...</h2>
         <div class="progress">
           <div class="progress-bar"></div>
         </div>
+        <p class="loading-text">This may take a moment as we analyze your document</p>
       </div>
-      <div id="flashcard-carousel" class="carousel slide">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="slide">
-              <h2>Question 1</h2>
-              <p id="question-1"></p>
-              <h2 class="answer-heading">Answer:</h2>
-              <p id="answer-1"></p>
+      
+      <div class="flashcards-container" id="flashcards-container">
+        <div class="flashcards-header">
+          <h2>Your Flashcards</h2>
+          <div class="flashcard-controls">
+            <button id="prev-card" class="btn btn-control"><i class="fas fa-chevron-left"></i></button>
+            <span id="card-counter">1/5</span>
+            <button id="next-card" class="btn btn-control"><i class="fas fa-chevron-right"></i></button>
+          </div>
+        </div>
+        
+        <div class="flashcards-wrapper">
+          <div class="flashcard" id="flashcard-1">
+            <div class="question-panel">
+              <div class="card-content">
+                <h3>Question</h3>
+                <p id="question-1"></p>
+                <button class="btn btn-reveal">Reveal Answer</button>
+              </div>
+            </div>
+            <div class="answer-panel">
+              <div class="card-content">
+                <h3>Answer</h3>
+                <p id="answer-1"></p>
+              </div>
             </div>
           </div>
-          <div class="carousel-item">
-            <div class="slide">
-              <h2>Question 2</h2>
-              <p id="question-2"></p>
-              <h2 class="answer-heading">Answer:</h2>
-              <p id="answer-2"></p>
+          
+          <div class="flashcard" id="flashcard-2">
+            <div class="question-panel">
+              <div class="card-content">
+                <h3>Question</h3>
+                <p id="question-2"></p>
+                <button class="btn btn-reveal">Reveal Answer</button>
+              </div>
+            </div>
+            <div class="answer-panel">
+              <div class="card-content">
+                <h3>Answer</h3>
+                <p id="answer-2"></p>
+              </div>
             </div>
           </div>
-          <div class="carousel-item">
-            <div class="slide">
-              <h2>Question 3</h2>
-              <p id="question-3"></p>
-              <h2 class="answer-heading">Answer:</h2>
-              <p id="answer-3"></p>
+          
+          <div class="flashcard" id="flashcard-3">
+            <div class="question-panel">
+              <div class="card-content">
+                <h3>Question</h3>
+                <p id="question-3"></p>
+                <button class="btn btn-reveal">Reveal Answer</button>
+              </div>
+            </div>
+            <div class="answer-panel">
+              <div class="card-content">
+                <h3>Answer</h3>
+                <p id="answer-3"></p>
+              </div>
             </div>
           </div>
-          <div class="carousel-item">
-            <div class="slide">
-              <h2>Question 4</h2>
-              <p id="question-4"></p>
-              <h2 class="answer-heading">Answer:</h2>
-              <p id="answer-4"></p>
+          
+          <div class="flashcard" id="flashcard-4">
+            <div class="question-panel">
+              <div class="card-content">
+                <h3>Question</h3>
+                <p id="question-4"></p>
+                <button class="btn btn-reveal">Reveal Answer</button>
+              </div>
+            </div>
+            <div class="answer-panel">
+              <div class="card-content">
+                <h3>Answer</h3>
+                <p id="answer-4"></p>
+              </div>
             </div>
           </div>
-          <div class="carousel-item">
-            <div class="slide">
-              <h2>Question 5</h2>
-              <p id="question-5"></p>
-              <h2 class="answer-heading">Answer:</h2>
-              <p id="answer-5"></p>
+          
+          <div class="flashcard" id="flashcard-5">
+            <div class="question-panel">
+              <div class="card-content">
+                <h3>Question</h3>
+                <p id="question-5"></p>
+                <button class="btn btn-reveal">Reveal Answer</button>
+              </div>
+            </div>
+            <div class="answer-panel">
+              <div class="card-content">
+                <h3>Answer</h3>
+                <p id="answer-5"></p>
+              </div>
             </div>
           </div>
         </div>
-        <button
-          class="carousel-control-prev"
-          type="button"
-          data-bs-target="#flashcard-carousel"
-          data-bs-slide="prev"
-        >
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button
-          class="carousel-control-next"
-          type="button"
-          data-bs-target="#flashcard-carousel"
-          data-bs-slide="next"
-        >
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
+        
+        <div class="flashcard-actions">
+          <button id="new-document" class="btn btn-primary">
+            <i class="fas fa-file-upload"></i> Upload New Document
+          </button>
+        </div>
       </div>
     </div>
+
+    <footer>
+      <div class="container">
+        <p>&copy; 2023 FlashcardAI - Transform your documents into interactive learning tools</p>
+      </div>
+    </footer>
 
     <script
       src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
